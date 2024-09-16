@@ -38,7 +38,7 @@ const ProjectsCarousel = () => {
         <p><span className='tech'>In short: </span>{currentProject.description}</p>
         <p><span className='tech'>Tech Stack Used: </span>{currentProject.techstack}</p>
         <div className="carousel-buttons">
-          <button onClick={() => handleMoreDetails(currentProject.id)}>More Details</button>
+          <button onClick={() => handleMoreDetails(currentProject.id)}>More Details...</button>
           <a href={currentProject.github} target="_blank" rel="noopener noreferrer" className="github-link">
             <i className="fab fa-github"></i>
           </a>
