@@ -35,10 +35,10 @@ function Landing() {
                         >
                             <i className="fa-solid fa-file"></i>
                         </a>
-                        <a href='https://linkedin.com/in/mahek-sota'>
+                        <a href='https://linkedin.com/in/mahek-sota' target="_blank">
                             <i className='fab fa-linkedin'></i>
                         </a>
-                        <a href='https://leetcode.com/u/msota/'>
+                        <a href='https://leetcode.com/u/msota/' target="_blank">
                             <i className="fa-solid fa-code"></i>
                         </a>
                     </div>
