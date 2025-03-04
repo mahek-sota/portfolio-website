@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We've Moved!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Georgia';
+            color: white;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #112;
+        }
+
+        #cnv {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .content {
+            position: absolute;
+            z-index: 10;
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
+        }
+
+        p {
+            font-size: 1.8rem;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        .redirect-link {
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 1.5rem;
+            text-decoration: none;
+            color: white;
+            background: rgba(255, 255, 255, 0.2); /* Transparent white */
+            padding: 12px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px); /* Glass effect */
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+            transition: 0.3s ease-in-out;
+            animation: glowPulse 2s infinite alternate;
+        }
+
+        .redirect-link:hover {
+            background: black;
+            transform: translateY(-3px);
+            /* box-shadow: 0px 0px 25px rgba(251, 227, 77, 0.6); */
+            /* border: 1px solid rgba(255, 255, 255, 0.5); */
+        }
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0px); }
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.6); }
+            100% { box-shadow: 0px 0px 25px rgb(255, 255, 255); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Star Background -->
+    <canvas id="cnv"></canvas>
+
+    <!-- Centered Content -->
+    <div class="content">
+        <h1>✨ We've Moved! ✨</h1>
+        <p>My portfolio has a new home. Check it out here:</p>
+        <a class="redirect-link" href="https://https://maheksota-portfolio-f5cal1zer-maheksotas-projects.vercel.app/.com" target="_blank">Go to my new website</a>
+    </div>
+
+    <script>
+        var cnv = document.getElementById("cnv");
+        var ctx = cnv.getContext("2d");
+        var W = window.innerWidth;
+        var H = window.innerHeight;
+        cnv.width = W;
+        cnv.height = H;
+
+        let stars = [];
+        let shootingStars = [];
+
+        function createStars() {
+            stars = [];
+            for (let i = 0; i < 150; i++) {
+                stars.push({
+                    x: Math.random() * W,
+                    y: Math.random() * H,
+                    r: Math.random() * 2.5,
+                    opacity: Math.random() * 0.5 + 0.5, 
+                    twinkleSpeed: Math.random() * 0.02 + 0.01 
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.fillStyle = "#112";
+            ctx.fillRect(0, 0, W, H);
+
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = "white";
+
+            for (let star of stars) {
+                star.opacity += star.twinkleSpeed;
+                if (star.opacity > 1 || star.opacity < 0.3) {
+                    star.twinkleSpeed *= -1;
+                }
+
+                ctx.globalAlpha = star.opacity;
+                ctx.beginPath();
+                ctx.fillStyle = "white";
+                ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        function createShootingStar() {
+            let x = Math.random() * W;
+            let y = Math.random() * H * 0.5;
+            let length = Math.random() * 80 + 50;
+            let speed = Math.random() * 6 + 2;
+            let alpha = 1;
+
+            shootingStars.push({ x, y, length, speed, alpha });
+        }
+
+        function drawShootingStars() {
+            for (let i = 0; i < shootingStars.length; i++) {
+                let star = shootingStars[i];
+
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(255, 255, 255, ${star.alpha})`;
+                ctx.lineWidth = 2;
+                ctx.moveTo(star.x, star.y);
+                ctx.lineTo(star.x - star.length, star.y + star.length * 0.5);
+                ctx.stroke();
+
+                star.x -= star.speed;
+                star.y += star.speed * 0.5;
+                star.alpha -= 0.02;
+
+                if (star.alpha <= 0) {
+                    shootingStars.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+
+        function animate() {
+            drawStars();
+            drawShootingStars();
+            requestAnimationFrame(animate);
+        }
+
+        createStars();
+        setInterval(createShootingStar, 3000);
+        animate();
+    </script>
+
+</body>
+</html>
